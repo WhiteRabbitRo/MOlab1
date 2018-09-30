@@ -4,7 +4,8 @@
 #include "TaskClass.h"
 #include "Simplex.h"
 
-void DataSimplex::error(int num) {
+void DataSimplex::error(int num)
+{
     switch (num) {
         case 0:
             std::cout << "Ошибка. Введенно некоректное значение" << std::endl;
@@ -18,7 +19,8 @@ void DataSimplex::error(int num) {
     }
 }
 
-bool DataSimplex::getData(std::string fileName) { //метод заполнения симплекс таблицы
+bool DataSimplex::getData(std::string fileName)
+{ //метод заполнения симплекс таблицы
     if (!this->getDataFromFile(fileName)) { //считываем данные из файла
         return false;
     }
@@ -69,7 +71,8 @@ bool DataSimplex::getData(std::string fileName) { //метод заполнен�
     return true;
 }
 
-void DataSimplex::print() {
+void DataSimplex::print()
+{
     std::cout << std::setw(15) << std::right << "\tSi\t";
     for (int i = 2; i < tableCol; i++)
         std::cout << std::setw(9) << std::right << "X" << SimplexTable[0][i] << "\t";
@@ -87,7 +90,8 @@ void DataSimplex::print() {
     }
 }
 
-bool DataSimplex::basicSolution() { //опорное решение
+bool DataSimplex::basicSolution()
+{ //опорное решение
     while (negElementColumn(1)) {
         for (int i = 1; i < tableRow - 1; i++) { //идем по столбцу и ищем отрицательный
             if (SimplexTable[i][1] < 0) { //если найден отрицательный элемент
@@ -97,16 +101,17 @@ bool DataSimplex::basicSolution() { //опорное решение
                             iColumn = j; //и столбец становится разрешающим
                             int test = iColumn;
                             minRelation(test);
-                            iRow = test;
                             getTable();
                             print();
                             break;
                         }
                     }
-                } else  //если все элементы положительные
+                }
+                else //если все элементы положительные
                 {
                     return false; //переходим к следющему этапу (объявление отсутствия решения)
                 }
+                break;
             }
         }
     }
@@ -115,43 +120,44 @@ bool DataSimplex::basicSolution() { //опорное решение
     return true; //опорное решение найдено
 }
 
-bool DataSimplex::optimalSolution() {
+bool DataSimplex::optimalSolution()
+{
     if (basicSolution()) //если найдено опорное решение
     { //проверяем есть ли в строке коэффициентов ЦФ положительный элемент
         while (posElements(tableRow - 1)) {
-            for (int i = 2; i < tableCol; i++) {//находим значение его столбца
-                if (SimplexTable[tableRow - 1][i] > 0) {//и проверяем есть ли в столбце положительный элемент
+            for (int i = 2; i < tableCol; i++) { //находим значение его столбца
+                if (SimplexTable[tableRow - 1][i] > 0) { //и проверяем есть ли в столбце положительный элемент
                     std::cout << "Положительный элемент в столбце " << i + 1 << std::endl;
                     if (noPosFunction(tableRow - 1)) {
                         iColumn = i;
                         int test = iColumn;
                         minRelation(test);
-                        iRow = test - 1;
                         getTable();
                         print();
                         break;
-                    } else {
+                    }
+                    else {
                         return false; //иначе решения не существует
                     }
                 }
             }
-
-
         }
 
         //если положительных в строке нет
         //то оптимальное решение найдено
         return true;
-    } else //если оптимальное не найдено
+    }
+    else //если оптимальное не найдено
     { //выводим ошибку и решения нет
         return false;
     }
 }
 
-void DataSimplex::getTable() {
+void DataSimplex::getTable()
+{
     std::cout << std::endl;
-    double **NewTable;
-    NewTable = new double *[tableRow];
+    double** NewTable;
+    NewTable = new double*[tableRow];
     for (int i = 0; i < tableRow; i++)
         NewTable[i] = new double[tableCol];
 
@@ -161,12 +167,10 @@ void DataSimplex::getTable() {
 
     std::swap(NewTable[iRow][0], NewTable[0][iColumn]);
 
-
     for (int i = 1; i < tableRow; i++)
         for (int j = 1; j < tableCol; j++)
             if ((i != iRow) && (j != iColumn))
-                NewTable[i][j] -= (NewTable[iRow][j] * NewTable[i][iColumn]) /
-                                  NewTable[iRow][iColumn];
+                NewTable[i][j] -= (NewTable[iRow][j] * NewTable[i][iColumn]) / NewTable[iRow][iColumn];
     for (int i = 1; i < tableRow; i++)
         for (int j = 1; j < tableCol; j++)
             if ((i == iRow) && (j != iColumn))
@@ -184,7 +188,8 @@ void DataSimplex::getTable() {
     std::cout << std::endl;
 }
 
-void DataSimplex::minRelation(int col) {
+void DataSimplex::minRelation(int col)
+{
     Tetha = new double[numberOfConstraints];
     double min;
     int j = 0;
@@ -204,12 +209,13 @@ void DataSimplex::minRelation(int col) {
         }
     }
 
-    col = j + 1;
+    iRow = j + 1;
 
     delete[] Tetha;
 }
 
-bool DataSimplex::negElementRow(int row) { //проверка строки на наличие отрицательного элемента
+bool DataSimplex::negElementRow(int row)
+{ //проверка строки на наличие отрицательного элемента
     for (int i = 2; i < tableCol; i++)
         if (SimplexTable[row][i] < 0)
             return true;
@@ -217,7 +223,8 @@ bool DataSimplex::negElementRow(int row) { //проверка строки на 
     return false;
 }
 
-bool DataSimplex::posElements(int row) { //проверка строки на наличие положительного элемента
+bool DataSimplex::posElements(int row)
+{ //проверка строки на наличие положительного элемента
     for (int i = 2; i < tableCol; i++)
         if (SimplexTable[row][i] > 0)
             return true;
@@ -225,7 +232,8 @@ bool DataSimplex::posElements(int row) { //проверка строки на н
     return false;
 }
 
-bool DataSimplex::negElementColumn(int column) { //проверка н отрицательный элемент в столбце
+bool DataSimplex::negElementColumn(int column)
+{ //проверка н отрицательный элемент в столбце
     for (int i = 1; i < tableRow - 1; i++)
         if (SimplexTable[i][column] < 0)
             return true;
@@ -233,7 +241,8 @@ bool DataSimplex::negElementColumn(int column) { //проверка н отри�
     return false;
 }
 
-bool DataSimplex::noPosFunction(int column) { //проверка столбца на наличие положительного элемента
+bool DataSimplex::noPosFunction(int column)
+{ //проверка столбца на наличие положительного элемента
     for (int i = 1; i < tableRow - 1; i++)
         if (SimplexTable[i][column] > 0)
             return true;
@@ -241,7 +250,8 @@ bool DataSimplex::noPosFunction(int column) { //проверка столбца 
     return false;
 }
 
-void DataSimplex::printEnd() {
+void DataSimplex::printEnd()
+{
     std::cout << "F = ";
     if (functionWay)
         std::cout << -1 * SimplexTable[tableRow - 1][1];
@@ -249,7 +259,7 @@ void DataSimplex::printEnd() {
         std::cout << SimplexTable[tableRow - 1][1];
 
     for (int i = 1; i < tableRow - 1; i++) {
-        std::cout << " X" << SimplexTable[i][0] << " = "  << SimplexTable[i][1];
+        std::cout << " X" << SimplexTable[i][0] << " = " << SimplexTable[i][1];
     }
     std::cout << std::endl;
 }

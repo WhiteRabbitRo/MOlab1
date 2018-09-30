@@ -6,8 +6,8 @@
 
 class DataSimplex : public DataTask {
 private:
-    double **SimplexTable; //наша симплекс-таблица (изменяется на каждом этапе)
-    double *Tetha; //отношение для коэффициентов
+    double** SimplexTable; //наша симплекс-таблица (изменяется на каждом этапе)
+    double* Tetha; //отношение для коэффициентов
     int tableRow; //строк в таблице
     int tableCol; //столбцов в таблице
     int iColumn; //разрешающий стобец

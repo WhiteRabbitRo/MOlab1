@@ -5,10 +5,10 @@
 
 class DataTask {
 protected:
-    double *objectiveFunction; //коэффициенты ЦФ
-    double *rightPart; //правая часть системы ограничений
-    double **constraintSystem; //коэффициенты системы ограничений
-    int *constraintSign; //знаки системы ограничений (1 - =, 2 - <=, 3 - >=)
+    double* objectiveFunction; //коэффициенты ЦФ
+    double* rightPart; //правая часть системы ограничений
+    double** constraintSystem; //коэффициенты системы ограничений
+    int* constraintSign; //знаки системы ограничений (1 - =, 2 - <=, 3 - >=)
     bool functionWay; //направление функции (0 - min, 1 - max)
     int numberOfVariables; //число переменных
     int numberOfConstraints; //число ограничений

@@ -6,9 +6,11 @@ using std::cout;
 using std::endl;
 using std::cin;
 
-int main() {
+int main()
+{
     cout << "Программа по решению задач линейного программирования Симплекс-Методом" << endl;
-    cout << "Формат ввода данных в файл SimplexMethod.txt:\n" << "\tC = (0 0 0)\n\tA = (0 0 0\n\t     0 0 0\n\t     0 0 0)\n\t"
+    cout << "Формат ввода данных в файл SimplexMethod.txt:\n"
+         << "\tC = (0 0 0)\n\tA = (0 0 0\n\t     0 0 0\n\t     0 0 0)\n\t"
          << "B = (0 0 0)\n\tW = (max)\n\tS = (<= = >=)\n" << endl;
 
     DataSimplex myTable;
@@ -24,7 +26,8 @@ int main() {
         if (myTable.optimalSolution()) {
             std::cout << "Оптимальное решение найдено: " << std::endl;
             myTable.printEnd();
-        } else {
+        }
+        else {
             myTable.print();
             myTable.error(1);
         }
